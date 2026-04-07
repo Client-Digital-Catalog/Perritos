@@ -1,0 +1,2570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PERRITOS - Los que más te gustan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --accent-red: #e63946;
+            --accent-mustard: #f4a900;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #555555;
+            --border: rgba(255, 255, 255, 0.06);
+            --success: #22c55e;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* NAVBAR - Logo grande, Menú y Ubicación arriba */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.98), rgba(10,10,10,0.8));
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-nav {
+            height: 55px;
+            width: auto;
+            filter: brightness(0) invert(1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .logo-nav:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-mustard);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .location-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            color: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .location-btn:hover {
+            border-color: var(--accent-mustard);
+            color: var(--accent-mustard);
+        }
+
+        .cart-nav {
+            position: relative;
+            width: 45px;
+            height: 45px;
+            background: var(--accent-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+        }
+
+        .cart-nav:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: var(--accent-mustard);
+            color: black;
+            font-size: 10px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-primary);
+        }
+
+        /* HERO SECTION - Con video de fondo */
+.hero {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.hero-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.85) 100%),
+                radial-gradient(ellipse at center, transparent 0%, rgba(10,10,10,0.9) 100%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px 20px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+        .hero-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 14px;
+            letter-spacing: 6px;
+            color: var(--accent-mustard);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .logo-hero {
+            width: 320px;
+            max-width: 85vw;
+            height: auto;
+            filter: brightness(0) invert(1) drop-shadow(0 10px 40px rgba(0,0,0,0.5));
+        }
+
+        .hero-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.8;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 45px;
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
+            margin-top: 10px;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(230, 57, 70, 0.4);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* MENU SECTION */
+        .menu-section {
+            padding: 100px 16px 40px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* CATEGORIES */
+        .categories-container {
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .category-list {
+            list-style: none;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 12px;
+            padding: 5px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .category-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-item {
+            padding: 14px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            background: var(--bg-card);
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .category-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .category-item:hover, .category-item.active {
+            color: var(--bg-primary);
+            background: var(--accent-mustard);
+            border-color: var(--accent-mustard);
+            box-shadow: 0 5px 20px rgba(244, 169, 0, 0.3);
+        }
+
+        /* PRODUCTS GRID */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(244, 169, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .product-image-container {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+            cursor: pointer;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--accent-red);
+            color: white;
+            padding: 5px 12px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            z-index: 2;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .product-info {
+            padding: 18px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .product-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .product-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent-mustard);
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .add-btn-simple {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-red);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: white;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+        }
+
+        .add-btn-simple:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: #ff4d5a;
+        }
+
+        .add-btn-simple svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+        }
+
+        /* PRODUCT MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .product-modal {
+            background: var(--bg-card);
+            border-radius: 30px 30px 0 0;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .modal-overlay.active .product-modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            transform: rotate(90deg);
+        }
+
+        .modal-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px;
+        }
+
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .modal-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-mustard);
+            margin-bottom: 16px;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .modal-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* INCLUDES SECTION */
+        .includes-section {
+            margin-bottom: 24px;
+        }
+
+        .section-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .includes-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .include-tag {
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* CUSTOMIZATION SECTION */
+        .custom-section {
+            margin-bottom: 24px;
+        }
+
+        .custom-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            color: var(--accent-red);
+        }
+
+        /* TOGGLE SWITCHES */
+        .toggle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toggle-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .toggle-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .toggle-price {
+            font-size: 12px;
+            color: var(--accent-mustard);
+            font-weight: 600;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 54px;
+            height: 34px;
+            background: var(--bg-secondary);
+            border-radius: 17px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .toggle-switch.active {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(20px);
+        }
+
+        /* QUANTITY SELECTOR */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .qty-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .qty-value {
+            font-size: 18px;
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        /* TOTAL SECTION */
+        .modal-total-section {
+            position: sticky;
+            bottom: 0;
+            background: var(--bg-card);
+            padding: 24px 28px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .total-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .total-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-mustard);
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .add-to-cart-btn {
+            padding: 18px 36px;
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(230, 57, 70, 0.3);
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
+        }
+
+        /* CART MODAL */
+        .cart-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 4000;
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .cart-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .cart-modal {
+            background: var(--bg-card);
+            border-radius: 30px 30px 0 0;
+            max-width: 500px;
+            width: 100%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cart-modal-overlay.active .cart-modal {
+            transform: translateY(0);
+        }
+
+        .cart-header {
+            padding: 28px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .cart-empty svg {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            opacity: 0.2;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 18px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .cart-item-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+
+        .cart-item-custom {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .cart-item-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-mustard);
+        }
+
+        .cart-item-remove {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(230, 57, 70, 0.2);
+            color: var(--accent-red);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .cart-item-remove:hover {
+            background: var(--accent-red);
+            color: white;
+        }
+
+        .cart-footer {
+            padding: 24px 28px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-secondary);
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-total-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .cart-total-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-mustard);
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .whatsapp-btn {
+            width: 100%;
+            padding: 20px;
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        /* WHATSAPP FORM */
+        .whatsapp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 5000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .whatsapp-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .whatsapp-form {
+            background: var(--bg-card);
+            border-radius: 24px;
+            max-width: 450px;
+            width: 100%;
+            padding: 32px;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            border: 1px solid var(--border);
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .whatsapp-overlay.active .whatsapp-form {
+            transform: scale(1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .form-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .form-icon svg {
+            width: 36px;
+            height: 36px;
+            fill: white;
+        }
+
+        .form-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .form-subtitle {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: var(--text-primary);
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-mustard);
+        }
+
+        .order-summary {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-info {
+            flex: 1;
+            padding-right: 10px;
+        }
+
+        .order-item-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 6px;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .order-item-details {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .order-item-price {
+            font-weight: 700;
+            color: var(--accent-mustard);
+            font-size: 18px;
+            white-space: nowrap;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .order-divider {
+            height: 2px;
+            background: var(--accent-mustard);
+            margin: 20px 0;
+            opacity: 0.3;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 5px;
+        }
+
+        .order-total-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        .order-total-amount {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: var(--accent-mustard);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 18px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-secondary:hover {
+            background: var(--hover);
+            border-color: var(--text-secondary);
+        }
+
+        .btn-primary {
+            flex: 2;
+            padding: 18px;
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+        }
+
+        /* FOOTER SIMPLE - Solo logo, slogan, redes y copyright */
+        .footer {
+            padding: 60px 24px 40px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+            background: linear-gradient(to top, rgba(244, 169, 0, 0.05), transparent);
+        }
+
+        .footer-logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+
+        .footer-slogan {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: var(--accent-mustard);
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            border-color: var(--accent-mustard);
+            color: var(--accent-mustard);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(244, 169, 0, 0.1);
+        }
+
+        .social-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        .payment-methods {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            display: inline-block;
+            border: 1px solid var(--border);
+        }
+
+        .payment-title {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .payment-list {
+            color: var(--text-primary);
+            font-size: 13px;
+            letter-spacing: 1px;
+            line-height: 1.6;
+        }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .footer-locations {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        /* ANIMATIONS */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 0.3s ease;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* RESPONSIVE */
+        @media (min-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 900px;
+            }
+            
+            .hero-content {
+                max-width: 600px;
+            }
+            
+            .logo-hero {
+                width: 380px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR - Logo grande, Menú y Ubicación arriba -->
+    <nav class="nav-container">
+        <div class="nav-left">
+            <img src="https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/0c51a8a7d242e2ff37ed57aa33adbb313e176f9b/Gemini_Generated_Image_dq63m1dq63m1dq63-Photoroom.png" 
+                 alt="Perritos" 
+                 class="logo-nav" 
+                 onclick="scrollToTop()">
+        </div>
+        
+        <div class="nav-center">
+            <span class="nav-link" onclick="scrollToMenu()">Menú</span>
+            <span class="nav-link" onclick="scrollToLocation()">Ubicación</span>
+        </div>
+        
+        <div class="nav-right">
+            <div class="cart-nav" onclick="openCart()">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M6 6h15l-1.5 9h-12z"/>
+                    <path d="M6 6L5 3H2"/>
+                    <circle cx="9" cy="20" r="1"/>
+                    <circle cx="17" cy="20" r="1"/>
+                </svg>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION - Con video de fondo -->
+<section class="hero" id="hero">
+    <div class="hero-video-container">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://github.com/Client-Digital-Catalog/Perritos/raw/refs/heads/main/Banner/PinDown.io_@BestofTeaCoffee_1775577808.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-overlay"></div>
+    </div>
+    
+    <div class="hero-content">
+        <div class="hero-label">No somos cualquier perro</div>
+        
+        <img src="https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/0c51a8a7d242e2ff37ed57aa33adbb313e176f9b/Gemini_Generated_Image_dq63m1dq63m1dq63-Photoroom.png" 
+             alt="Perritos" 
+             class="logo-hero">
+        
+        <p class="hero-subtitle">
+            Somos los perritos que más te gustan. Auténticos, irresistibles y llenos de sabor.
+        </p>
+        
+        <button class="hero-cta" onclick="scrollToMenu()">
+            Ver Menú
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </button>
+    </div>
+    
+    <div class="scroll-hint">
+        <span>Desliza</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+    </div>
+</section>
+
+
+    <!-- MENU SECTION -->
+    <section class="menu-section" id="menu">
+        <div class="section-header">
+            <h2 class="section-title">NUESTRO MENÚ</h2>
+            <p class="section-subtitle">Selecciona tu favorito</p>
+        </div>
+
+        <div class="categories-container">
+            <ul class="category-list">
+                <li class="category-item active" onclick="filterCategory('perros', this)">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <span>Perros</span>
+                </li>
+                <li class="category-item" onclick="filterCategory('hamburguesas', this)">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M2 12h20v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2z"/>
+                        <path d="M4 8h16a2 2 0 0 1 2 2v2H2v-2a2 2 0 0 1 2-2z"/>
+                        <path d="M6 4h12a2 2 0 0 1 2 2H4a2 2 0 0 1 2-2z"/>
+                    </svg>
+                    <span>Hamburguesas</span>
+                </li>
+                <li class="category-item" onclick="filterCategory('bebidas', this)">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M7 2v2m10-2v2M6 6h12l-1.5 12h-9L6 6z"/>
+                        <path d="M9 10v6m6-6v6"/>
+                    </svg>
+                    <span>Bebidas</span>
+                </li>
+                <li class="category-item" onclick="filterCategory('combos', this)">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <span>Combos</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <!-- FOOTER SIMPLE -->
+    <footer class="footer" id="location">
+        <img src="https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/0c51a8a7d242e2ff37ed57aa33adbb313e176f9b/Gemini_Generated_Image_dq63m1dq63m1dq63-Photoroom.png" 
+             alt="Perritos" 
+             class="footer-logo">
+        
+        <div class="footer-slogan">LOS PERRITOS QUE MÁS TE GUSTAN</div>
+        
+        <div class="social-links">
+            <a href="#" class="social-icon" title="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="social-icon" title="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="#" class="social-icon" title="Twitter">
+                <svg viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+            </a>
+            <a href="#" class="social-icon" title="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+        </div>
+
+        <div class="payment-methods">
+            <div class="payment-title">Métodos de Pago</div>
+            <div class="payment-list">
+                Pago Móvil • Zelle • Binance Pay • Transferencia • Efectivo
+            </div>
+        </div>
+
+        <p class="footer-copy">
+            <span class="footer-locations">📍 La Isabelica (C.C Save) • San Diego • El Viñedo</span><br>
+            © 2024 Perritos. Todos los derechos reservados.
+        </p>
+    </footer>
+
+    <!-- PRODUCT MODAL -->
+    <div class="modal-overlay" id="productModal" onclick="closeProductModal(event)">
+        <div class="product-modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <img src="" alt="" class="modal-image" id="modalImage">
+                <button class="modal-close" onclick="closeProductModal()">×</button>
+            </div>
+            <div class="modal-content">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <div class="modal-price" id="modalPrice"></div>
+                <p class="modal-desc" id="modalDesc"></p>
+                
+                <div class="includes-section">
+                    <div class="section-label">Incluye</div>
+                    <div class="includes-list" id="includesList"></div>
+                </div>
+
+                <div class="custom-section" id="customSection">
+                    <div class="custom-title">Personaliza tu pedido</div>
+                    <div id="customOptions"></div>
+                </div>
+            </div>
+            <div class="modal-total-section">
+                <div class="total-info">
+                    <span class="total-label">Total</span>
+                    <span class="total-amount" id="modalTotal">$0</span>
+                </div>
+                <button class="add-to-cart-btn" onclick="addToCartFromModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    Agregar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART MODAL -->
+    <div class="cart-modal-overlay" id="cartModal" onclick="closeCart(event)">
+        <div class="cart-modal" onclick="event.stopPropagation()">
+            <div class="cart-header">
+                <h3 class="cart-title">TU PEDIDO</h3>
+                <button class="modal-close" onclick="closeCart()">×</button>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6 6h15l-1.5 9h-12z"/>
+                        <path d="M6 6L5 3H2"/>
+                        <circle cx="9" cy="20" r="1"/>
+                        <circle cx="17" cy="20" r="1"/>
+                    </svg>
+                    <p>Tu carrito está vacío</p>
+                    <p style="font-size: 12px; margin-top: 10px;">¡Agrega unos perritos!</p>
+                </div>
+            </div>
+            
+            <div class="cart-footer" id="cartFooter" style="display: none;">
+                <div class="cart-total-row">
+                    <span class="cart-total-label">Total a pagar</span>
+                    <span class="cart-total-amount" id="cartTotal">$0</span>
+                </div>
+                <button class="whatsapp-btn" onclick="openWhatsAppForm()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    Pedir por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHATSAPP FORM -->
+    <div class="whatsapp-overlay" id="whatsappForm" onclick="closeWhatsAppForm(event)">
+        <div class="whatsapp-form" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeWhatsAppForm()" style="position: absolute; top: 20px; right: 20px;">×</button>
+            
+            <div class="form-header">
+                <div class="form-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                </div>
+                <h3 class="form-title">FINALIZAR PEDIDO</h3>
+                <p class="form-subtitle">Completa tu información</p>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Tu Nombre</label>
+                <input type="text" class="form-input" id="customerName" placeholder="Ej: Juan Pérez">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Tu Pedido</label>
+                <div class="order-summary" id="orderSummary"></div>
+            </div>
+
+            <div class="form-buttons">
+                <button class="btn-secondary" onclick="closeWhatsAppForm()">Volver</button>
+                <button class="btn-primary" onclick="sendToWhatsApp()">
+                    Enviar a WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PRODUCTOS CON IMÁGENES CORRECTAS - Perros = hot dogs, Hamburguesas = burgers
+        const products = {
+            perros: [
+                {
+                    id: 1,
+                    name: "Clásico Full",
+                    desc: "Carne de salchicha Plumrose premium. El perro que inició todo con auténtico sabor Perritos.",
+                    price: 8,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Bebidas/9bb1a7ba63c9aaebdca82cf42172d935.jpg",
+                    includes: ["1 Salchicha Plumrose", "Pan artesanal Perritos", "Repollo fresco", "Salsa de la casa", "Mostaza", "Cebolla caramelizada", "Papitas chips"],
+                    customization: {
+                        maxMeat: 2,
+                        meatPrice: 2,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Salsa Picante", price: 0.50, type: "toggle" },
+                            { name: "Doble Porción Papas", price: 2, type: "toggle" },
+                            { name: "Tocineta", price: 1.50, type: "toggle" },
+                            { name: "Guacamole", price: 1, type: "toggle" }
+                        ]
+                    }
+                },
+                {
+                    id: 2,
+                    name: "Vieja Escuela",
+                    desc: "Carne de salchicha tradicional. Tradición en cada mordisco, sabor clásico mejorado al estilo Perritos.",
+                    price: 9,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Perros/6d5a578591618fffa4dd517b411cb23f.jpg",
+                    includes: ["1 Salchicha premium", "Pan tradicional", "Ensalada de repollo", "Zanahoria", "Cilantro", "Salsa secreta", "Tocineta"],
+                    customization: {
+                        maxMeat: 2,
+                        meatPrice: 2,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Salsa Picante", price: 0.50, type: "toggle" },
+                            { name: "Doble Porción Papas", price: 2, type: "toggle" },
+                            { name: "Extra Tocineta", price: 1.50, type: "toggle" },
+                            { name: "Guacamole", price: 1, type: "toggle" }
+                        ]
+                    }
+                },
+                {
+                    id: 3,
+                    name: "Gourmet Deluxe",
+                    desc: "Carne de salchicha alemana premium. Para paladares exigentes con ingredientes de primera calidad.",
+                    price: 11,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Perros/50f4f3ac4620d4ff77312ea0a39ee055.jpg",
+                    includes: ["1 Salchicha alemana", "Pan brioche", "Cebolla caramelizada", "Queso parmesano", "Salsa BBQ", "Tocineta crujiente"],
+                    customization: {
+                        maxMeat: 2,
+                        meatPrice: 2.50,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Salsa Picante", price: 0.50, type: "toggle" },
+                            { name: "Doble Porción Papas", price: 2, type: "toggle" },
+                            { name: "Queso Azul", price: 2, type: "toggle" },
+                            { name: "Champiñones", price: 1.50, type: "toggle" }
+                        ]
+                    }
+                },
+                {
+                    id: 4,
+                    name: "Americano 1975",
+                    desc: "Carne de salchicha de res estilo NYC. Auténtico sabor americano con el toque especial Perritos.",
+                    price: 10,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Perros/aa61742ddc6ac3a7fbfe005d6a52d5a9.jpg",
+                    includes: ["1 Salchicha de res", "Pan New York style", "Pepinillos", "Cebolla cruda", "Mostaza americana", "Ketchup", "Papitas crunch"],
+                    customization: {
+                        maxMeat: 2,
+                        meatPrice: 2,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Chili con Carne", price: 2, type: "toggle" },
+                            { name: "Queso Cheddar", price: 1.50, type: "toggle" },
+                            { name: "Jalapeños", price: 0.75, type: "toggle" },
+                            { name: "Doble Porción Papas", price: 2, type: "toggle" }
+                        ]
+                    }
+                },
+                {
+                    id: 5,
+                    name: "Polaco Especial",
+                    desc: "Carne de salchicha polaca tradicional. Sabor europeo con especias únicas y toque ahumado.",
+                    price: 10,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Perros/b6501dad8058518426216593e73f3bad.jpg",
+                    includes: ["1 Salchicha polaca", "Pan artesanal", "Chucrut", "Mostaza alemana", "Cebolla caramelizada", "Papitas chips"],
+                    customization: {
+                        maxMeat: 2,
+                        meatPrice: 2.50,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Salsa Picante", price: 0.50, type: "toggle" },
+                            { name: "Doble Porción Papas", price: 2, type: "toggle" },
+                            { name: "Chucrut Extra", price: 1, type: "toggle" }
+                        ]
+                    }
+                }
+            ],
+            hamburguesas: [
+                {
+                    id: 10,
+                    name: "Carne Especial",
+                    desc: "Carne de res 150g premium. La hamburguesa que conquista corazones con sabor incomparable.",
+                    price: 12,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Hamburguesa/3cefc132da9d6e798c82b10f173b4766.jpg",
+                    includes: ["1 Carne de res 150g", "Pan artesanal Perritos", "Queso cheddar", "Lechuga", "Tomate", "Cebolla", "Salsa especial de la casa"],
+                    customization: {
+                        maxMeat: 10,
+                        meatPrice: 4,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Tocineta", price: 2, type: "toggle" },
+                            { name: "Huevo Frito", price: 1.50, type: "toggle" },
+                            { name: "Aguacate", price: 2, type: "toggle" },
+                            { name: "Champiñones", price: 1.50, type: "toggle" },
+                            { name: "Jalapeños", price: 0.75, type: "toggle" }
+                        ]
+                    }
+                },
+                {
+                    id: 11,
+                    name: "Callejera Triple",
+                    desc: "Carne de res 150g x3. Triple carne, triple sabor. Para los más hambrientos y exigentes.",
+                    price: 18,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Hamburguesa/384c324ef21229278045c23558a32228.jpg",
+                    includes: ["3 Carnes de res 150g c/u", "Pan brioche premium", "Triple queso cheddar", "Cebolla caramelizada", "Salsa secreta Perritos", "Tocineta crujiente"],
+                                        customization: {
+                        maxMeat: 10,
+                        meatPrice: 4,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Tocineta", price: 2, type: "toggle" },
+                            { name: "Huevo Frito", price: 1.50, type: "toggle" },
+                            { name: "Champiñones", price: 1.50, type: "toggle" },
+                            { name: "Jalapeños", price: 0.75, type: "toggle" },
+                            { name: "Salsa BBQ", price: 0.50, type: "toggle" }
+                        ]
+                    }
+                },
+                {
+                    id: 12,
+                    name: "La Perrita Doble",
+                    desc: "Carne de res 150g x2. Doble carne, doble placer. Nuestra especialidad insignia.",
+                    price: 15,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Hamburguesa/90efec800f4717d6fd9546b3a3d0dbe2%20(1).jpg",
+                    includes: ["2 Carnes de res 150g", "Pan brioche artesanal", "Doble queso cheddar", "Cebolla caramelizada", "Salsa especial Perritos", "Tocineta premium"],
+                    customization: {
+                        maxMeat: 10,
+                        meatPrice: 4,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Tocineta", price: 2, type: "toggle" },
+                            { name: "Huevo Frito", price: 1.50, type: "toggle" },
+                            { name: "Chili con Carne", price: 2, type: "toggle" },
+                            { name: "Pepinillos", price: 0.50, type: "toggle" },
+                            { name: "Aguacate", price: 2, type: "toggle" }
+                        ]
+                    }
+                },
+                {
+                    id: 13,
+                    name: "Crispy Chicken",
+                    desc: "Carne de pechuga de pollo crispy. Pollo crujiente con el toque especial Perritos.",
+                    price: 13,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Hamburguesa/0a723c9499a4a8deb877245eaea58103.jpg",
+                    includes: ["1 Pechuga de pollo crispy", "Pan artesanal", "Lechuga fresca", "Pepinillos", "Salsa ranch", "Tocineta"],
+                    customization: {
+                        maxMeat: 10,
+                        meatPrice: 3.50,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Tocineta", price: 2, type: "toggle" },
+                            { name: "Aguacate", price: 2, type: "toggle" },
+                            { name: "Salsa BBQ", price: 0.50, type: "toggle" },
+                            { name: "Salsa Picante", price: 0.50, type: "toggle" }
+                        ]
+                    }
+                },
+                {
+                    id: 14,
+                    name: "La Perrita Crispy",
+                    desc: "Carne de pollo crispy empanizado. Crujiente por fuera, jugosa por dentro.",
+                    price: 13,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Hamburguesa/d339837ef39fc28fc6c1c234814ebfb7.jpg",
+                    includes: ["1 Pollo crispy empanizado", "Pan artesanal", "Lechuga", "Tomate", "Cebolla", "Salsa tártara", "Queso suizo"],
+                    customization: {
+                        maxMeat: 10,
+                        meatPrice: 3.50,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Tocineta", price: 2, type: "toggle" },
+                            { name: "Huevo Frito", price: 1.50, type: "toggle" },
+                            { name: "Aguacate", price: 2, type: "toggle" },
+                            { name: "Salsa BBQ", price: 0.50, type: "toggle" },
+                            { name: "Jalapeños", price: 0.75, type: "toggle" }
+                        ]
+                    }
+                },
+                {
+                    id: 15,
+                    name: "La Perrita del Guasac",
+                    desc: "Carne de res 150g con guacamole especial. La favorita de los amantes del aguacate.",
+                    price: 14,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Hamburguesa/132bc221f60287e55db4fbc80f465f0a.jpg",
+                    includes: ["1 Carne de res 150g", "Pan artesanal", "Guacamole casero", "Tocineta", "Queso cheddar", "Lechuga", "Salsa especial"],
+                    customization: {
+                        maxMeat: 10,
+                        meatPrice: 4,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Tocineta", price: 2, type: "toggle" },
+                            { name: "Huevo Frito", price: 1.50, type: "toggle" },
+                            { name: "Guacamole Extra", price: 2, type: "toggle" },
+                            { name: "Champiñones", price: 1.50, type: "toggle" }
+                        ]
+                    }
+                },
+                {
+                    id: 16,
+                    name: "La Glutona",
+                    desc: "Carne de res 150g x2 + pollo crispy. La indulgencia máxima para los más glotones.",
+                    price: 17,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Hamburguesa/571fff618531d22fa694c1e419b309f6.jpg",
+                    includes: ["2 Carnes de res 150g", "1 Pollo crispy", "Pan brioche grande", "Triple queso", "Tocineta doble", "Salsa especial"],
+                    customization: {
+                        maxMeat: 10,
+                        meatPrice: 4,
+                        extras: [
+                            { name: "Extra Queso", price: 1.50, type: "toggle" },
+                            { name: "Tocineta Extra", price: 2, type: "toggle" },
+                            { name: "Huevo Frito", price: 1.50, type: "toggle" },
+                            { name: "Aguacate", price: 2, type: "toggle" },
+                            { name: "Chili con Carne", price: 2, type: "toggle" }
+                        ]
+                    }
+                }
+            ],
+            bebidas: [
+    {
+        id: 20,
+        name: "Coca-Cola",
+        desc: "Refresco de cola original bien frío",
+        price: 2,
+        image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Bebidas/bebida3.jpg",
+        includes: ["Lata 350ml", "Hielo"],
+        customization: null
+    },
+    {
+        id: 21,
+        name: "Poppi Wild Berry",
+        desc: "Refresco sabor berries con 5g de azúcar",
+        price: 2.50,
+        image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Bebidas/bebida2.jpg",
+        includes: ["Lata 355ml", "Hielo"],
+        customization: null
+    },
+    {
+        id: 22,
+        name: "Pepsi",
+        desc: "Refresco de cola bien fría",
+        price: 2,
+        image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Bebidas/bebida.jpg",
+        includes: ["Lata 350ml", "Hielo"],
+        customization: null
+    }
+],
+            combos: [
+                {
+                    id: 30,
+                    name: "Combo Mix Burguer",
+                    desc: "Hamburguesa + Papas + Bebida",
+                    price: 14,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Combos/1e6b1a55c2b50314a276ca17e8ef31d2.jpg",
+                    includes: ["Hamburguesa a elección", "Papas fritas regulares", "Bebida 350ml"],
+                    customization: null
+                },
+                {
+                    id: 31,
+                    name: "Combo Burgui",
+                    desc: "2 Hamburguesa",
+                    price: 18,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Combos/c64bf81b55e61c697bd075ddcdd294cd.jpg",
+                    includes: ["Hamburguesa a elección"],
+                    customization: null
+                },
+                {
+                    id: 32,
+                    name: "Combo Familiar",
+                    desc: "2 Hamburguesa + 2 Bebidas + Papas grandes + Salsas",
+                    price: 45,
+                    image: "https://raw.githubusercontent.com/Client-Digital-Catalog/Perritos/refs/heads/main/Combos/2b87874cac1b5fd21e2c27fc331260de.jpg",
+                    includes: ["2 Hamburguesa a elección", "2 Bebidas 350ml", "Papas fritas familiares"],
+                    customization: null
+                }
+            ]
+        };
+
+        // ESTADO
+        let cart = [];
+        let currentCategory = 'perros';
+        let currentProduct = null;
+        let currentCustomization = {};
+        let currentMeatCount = 1;
+
+        // INICIALIZAR
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts('perros');
+            updateCartUI();
+        });
+
+        // RENDER PRODUCTOS - SIN EL OJO DE QUICK VIEW
+        function renderProducts(category) {
+            const grid = document.getElementById('productsGrid');
+            
+            // Fade out
+            grid.style.opacity = '0';
+            grid.style.transform = 'translateY(20px)';
+            grid.style.transition = 'all 0.3s ease';
+            
+            setTimeout(() => {
+                grid.innerHTML = '';
+                const items = products[category] || [];
+                
+                items.forEach((product, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    
+                    // SIN EL BOTÓN DE OJO - solo la imagen clickeable
+                    card.innerHTML = `
+                        <div class="product-image-container" onclick="openProductModal(${product.id})">
+                            <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                            ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <h3 class="product-name">${product.name}</h3>
+                                <p class="product-desc">${product.desc}</p>
+                            </div>
+                            <div class="product-footer">
+                                <span class="product-price">$${product.price}</span>
+                                <button class="add-btn-simple" onclick="quickAddToCart(${product.id})">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M12 5v14M5 12h14"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    grid.appendChild(card);
+                });
+                
+                // Fade in
+                grid.style.opacity = '1';
+                grid.style.transform = 'translateY(0)';
+            }, 300);
+        }
+
+        // FILTRAR CATEGORÍA
+        function filterCategory(category, element) {
+            if (currentCategory === category) return;
+            
+            currentCategory = category;
+            
+            // Actualizar tabs
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+            
+            renderProducts(category);
+        }
+
+        // ABRIR MODAL PRODUCTO
+        function openProductModal(productId) {
+            currentProduct = findProduct(productId);
+            if (!currentProduct) return;
+            
+            // Resetear personalización
+            currentCustomization = {};
+            currentMeatCount = 1;
+            
+            // Llenar datos
+            document.getElementById('modalImage').src = currentProduct.image;
+            document.getElementById('modalTitle').textContent = currentProduct.name;
+            document.getElementById('modalPrice').textContent = `$${currentProduct.price}`;
+            document.getElementById('modalDesc').textContent = currentProduct.desc;
+            
+            // Incluye
+            const includesList = document.getElementById('includesList');
+            includesList.innerHTML = currentProduct.includes.map(item => 
+                `<span class="include-tag">${item}</span>`
+            ).join('');
+            
+            // Opciones de personalización
+            const customSection = document.getElementById('customSection');
+            const customOptions = document.getElementById('customOptions');
+            
+            if (currentProduct.customization) {
+                customSection.style.display = 'block';
+                customOptions.innerHTML = '';
+                
+                // Selector de carnes si aplica (maxMeat > 1)
+                if (currentProduct.customization.maxMeat > 1) {
+                    const meatControl = document.createElement('div');
+                    meatControl.className = 'toggle-item';
+                    
+                    // Texto según el tipo de producto
+                    const meatLabel = currentCategory === 'perros' ? 'Cantidad de Salchichas' : 'Cantidad de Carnes';
+                    
+                    meatControl.innerHTML = `
+                        <div class="toggle-info">
+                            <span class="toggle-name">${meatLabel}</span>
+                            <span class="toggle-price">+$${currentProduct.customization.meatPrice.toFixed(2)} c/u extra</span>
+                        </div>
+                        <div class="quantity-selector">
+                            <button class="qty-btn" onclick="changeMeatCount(-1)" id="meatMinus">−</button>
+                            <span class="qty-value" id="meatCount">1</span>
+                            <button class="qty-btn" onclick="changeMeatCount(1)" id="meatPlus">+</button>
+                        </div>
+                    `;
+                    customOptions.appendChild(meatControl);
+                    
+                    // Actualizar estado inicial de botones
+                    setTimeout(() => {
+                        document.getElementById('meatMinus').disabled = true;
+                        const maxMeat = currentProduct.customization.maxMeat;
+                        document.getElementById('meatPlus').disabled = maxMeat <= 1;
+                    }, 0);
+                }
+                
+                // Toggles de extras
+                currentProduct.customization.extras.forEach((extra) => {
+                    const toggleItem = document.createElement('div');
+                    toggleItem.className = 'toggle-item';
+                    toggleItem.innerHTML = `
+                        <div class="toggle-info">
+                            <span class="toggle-name">${extra.name}</span>
+                            <span class="toggle-price">+$${extra.price.toFixed(2)}</span>
+                        </div>
+                        <div class="toggle-switch" onclick="toggleExtra('${extra.name}', ${extra.price}, this)" data-name="${extra.name}">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    `;
+                    customOptions.appendChild(toggleItem);
+                });
+            } else {
+                customSection.style.display = 'none';
+            }
+            
+            updateModalTotal();
+            
+            const modal = document.getElementById('productModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        // CAMBIAR CANTIDAD DE CARNES
+        function changeMeatCount(delta) {
+            const newCount = currentMeatCount + delta;
+            const maxMeat = currentProduct.customization?.maxMeat || 1;
+            
+            if (newCount >= 1 && newCount <= maxMeat) {
+                currentMeatCount = newCount;
+                document.getElementById('meatCount').textContent = currentMeatCount;
+                document.getElementById('meatMinus').disabled = currentMeatCount === 1;
+                document.getElementById('meatPlus').disabled = currentMeatCount === maxMeat;
+                updateModalTotal();
+            }
+        }
+
+        // TOGGLE EXTRA
+        function toggleExtra(name, price, element) {
+            element.classList.toggle('active');
+            
+            if (element.classList.contains('active')) {
+                currentCustomization[name] = price;
+            } else {
+                delete currentCustomization[name];
+            }
+            
+            updateModalTotal();
+        }
+
+        // ACTUALIZAR TOTAL MODAL
+        function updateModalTotal() {
+            if (!currentProduct) return;
+            
+            let total = currentProduct.price;
+            
+            // Sumar carnes extras
+            if (currentMeatCount > 1 && currentProduct.customization) {
+                const extraMeats = currentMeatCount - 1;
+                total += extraMeats * currentProduct.customization.meatPrice;
+            }
+            
+            // Sumar extras
+            Object.values(currentCustomization).forEach(price => {
+                total += price;
+            });
+            
+            document.getElementById('modalTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // CERRAR MODAL PRODUCTO
+        function closeProductModal(event) {
+            if (!event || event.target === document.getElementById('productModal') || event.target.classList.contains('modal-close')) {
+                const modal = document.getElementById('productModal');
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }, 300);
+            }
+        }
+
+        // AGREGAR AL CARRITO DESDE MODAL
+        function addToCartFromModal() {
+            if (!currentProduct) return;
+            
+            const customText = [];
+            let extraPrice = 0;
+            
+            // Carnes extras
+            if (currentMeatCount > 1) {
+                const meatLabel = currentCategory === 'perros' ? 'salchichas' : 'carnes';
+                customText.push(`${currentMeatCount} ${meatLabel}`);
+                const extraMeats = currentMeatCount - 1;
+                extraPrice += extraMeats * currentProduct.customization.meatPrice;
+            }
+            
+            // Extras
+            Object.entries(currentCustomization).forEach(([name, price]) => {
+                customText.push(name);
+                extraPrice += price;
+            });
+            
+            const cartItem = {
+                id: Date.now(),
+                productId: currentProduct.id,
+                name: currentProduct.name,
+                basePrice: currentProduct.price,
+                extraPrice: extraPrice,
+                totalPrice: currentProduct.price + extraPrice,
+                image: currentProduct.image,
+                customization: customText.join(', ') || 'Estándar',
+                category: currentCategory
+            };
+            
+            cart.push(cartItem);
+            updateCartUI();
+            
+            // Feedback visual
+            const btn = document.querySelector('.add-to-cart-btn');
+            btn.innerHTML = '✓ Agregado';
+            btn.style.background = '#22c55e';
+            
+            setTimeout(() => {
+                closeProductModal();
+                setTimeout(() => {
+                    btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Agregar`;
+                    btn.style.background = '';
+                }, 300);
+            }, 600);
+        }
+
+        // AGREGAR RÁPIDO
+        function quickAddToCart(productId) {
+            const product = findProduct(productId);
+            if (!product) return;
+            
+            // Determinar categoría del producto
+            let category = 'perros';
+            for (let cat in products) {
+                if (products[cat].find(p => p.id === productId)) {
+                    category = cat;
+                    break;
+                }
+            }
+            
+            const cartItem = {
+                id: Date.now(),
+                productId: product.id,
+                name: product.name,
+                basePrice: product.price,
+                extraPrice: 0,
+                totalPrice: product.price,
+                image: product.image,
+                customization: 'Estándar',
+                category: category
+            };
+            
+            cart.push(cartItem);
+            updateCartUI();
+            
+            // Animación botón
+            const btn = event.target.closest('.add-btn-simple');
+            btn.classList.add('pulse');
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>`;
+            setTimeout(() => {
+                btn.classList.remove('pulse');
+                btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>`;
+            }, 800);
+        }
+
+        // BUSCAR PRODUCTO
+        function findProduct(id) {
+            for (let cat in products) {
+                const found = products[cat].find(p => p.id === id);
+                if (found) return found;
+            }
+            return null;
+        }
+
+        // ACTUALIZAR CARRITO
+        function updateCartUI() {
+            const count = cart.length;
+            const total = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+            
+            document.getElementById('cartBadge').textContent = count;
+            
+            const cartItems = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+            
+            if (count === 0) {
+                cartItems.innerHTML = `
+                    <div class="cart-empty">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 6h15l-1.5 9h-12z"/>
+                            <path d="M6 6L5 3H2"/>
+                            <circle cx="9" cy="20" r="1"/>
+                            <circle cx="17" cy="20" r="1"/>
+                        </svg>
+                        <p>Tu carrito está vacío</p>
+                        <p style="font-size: 12px; margin-top: 10px;">¡Agrega unos perritos!</p>
+                    </div>
+                `;
+                cartFooter.style.display = 'none';
+            } else {
+                cartItems.innerHTML = cart.map((item, index) => `
+                    <div class="cart-item" style="animation-delay: ${index * 0.1}s">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-custom">${item.customization}</div>
+                            <div class="cart-item-price">$${item.totalPrice.toFixed(2)}</div>
+                        </div>
+                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">×</button>
+                    </div>
+                `).join('');
+                cartFooter.style.display = 'block';
+            }
+            
+            document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // ELIMINAR DEL CARRITO
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartUI();
+        }
+
+        // ABRIR CARRITO
+        function openCart() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        // CERRAR CARRITO
+        function closeCart(event) {
+            if (!event || event.target === document.getElementById('cartModal') || event.target.classList.contains('modal-close')) {
+                const modal = document.getElementById('cartModal');
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }, 300);
+            }
+        }
+
+        // ABRIR FORMULARIO WHATSAPP
+        function openWhatsAppForm() {
+            closeCart();
+            
+            const total = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+            const summary = document.getElementById('orderSummary');
+            
+            // Organizar por categorías
+            const perros = cart.filter(item => item.category === 'perros' || !item.category);
+            const hamburguesas = cart.filter(item => item.category === 'hamburguesas');
+            const bebidas = cart.filter(item => item.category === 'bebidas');
+            const combos = cart.filter(item => item.category === 'combos');
+            
+            let html = '';
+            
+            // Función auxiliar para agrupar items iguales
+            function groupItems(items) {
+                const grouped = {};
+                items.forEach(item => {
+                    const key = `${item.name}|${item.customization}`;
+                    if (!grouped[key]) {
+                        grouped[key] = {
+                            name: item.name,
+                            customization: item.customization,
+                            price: item.totalPrice,
+                            count: 0
+                        };
+                    }
+                    grouped[key].count++;
+                });
+                return Object.values(grouped);
+            }
+            
+            // PERROS
+            if (perros.length > 0) {
+                html += `<div style="margin-bottom: 20px;"><div style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--accent-mustard); margin-bottom: 10px; letter-spacing: 2px;">🌭 PERROS</div>`;
+                groupItems(perros).forEach(item => {
+                    const qtyText = item.count > 1 ? ` x${item.count}` : '';
+                    const unitPrice = item.price;
+                    const totalPrice = unitPrice * item.count;
+                    
+                    html += `
+                        <div class="order-item">
+                            <div class="order-item-info">
+                                <div class="order-item-name">${item.name}${qtyText}</div>
+                                ${item.customization !== 'Estándar' ? `<div class="order-item-details">${item.customization}</div>` : ''}
+                            </div>
+                            <div class="order-item-price">$${totalPrice.toFixed(2)}</div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+            
+            // HAMBURGUESAS
+            if (hamburguesas.length > 0) {
+                html += `<div style="margin-bottom: 20px;"><div style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--accent-mustard); margin-bottom: 10px; letter-spacing: 2px;">🍔 HAMBURGUESAS</div>`;
+                groupItems(hamburguesas).forEach(item => {
+                    const qtyText = item.count > 1 ? ` x${item.count}` : '';
+                    const unitPrice = item.price;
+                    const totalPrice = unitPrice * item.count;
+                    
+                    html += `
+                        <div class="order-item">
+                            <div class="order-item-info">
+                                <div class="order-item-name">${item.name}${qtyText}</div>
+                                ${item.customization !== 'Estándar' ? `<div class="order-item-details">${item.customization}</div>` : ''}
+                            </div>
+                            <div class="order-item-price">$${totalPrice.toFixed(2)}</div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+            
+            // BEBIDAS
+            if (bebidas.length > 0) {
+                html += `<div style="margin-bottom: 20px;"><div style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--accent-mustard); margin-bottom: 10px; letter-spacing: 2px;">🥤 BEBIDAS</div>`;
+                groupItems(bebidas).forEach(item => {
+                    const qtyText = item.count > 1 ? ` x${item.count}` : '';
+                    const unitPrice = item.price;
+                    const totalPrice = unitPrice * item.count;
+                    
+                    html += `
+                        <div class="order-item">
+                            <div class="order-item-info">
+                                <div class="order-item-name">${item.name}${qtyText}</div>
+                            </div>
+                            <div class="order-item-price">$${totalPrice.toFixed(2)}</div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+            
+            // COMBOS
+            if (combos.length > 0) {
+                html += `<div style="margin-bottom: 20px;"><div style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--accent-mustard); margin-bottom: 10px; letter-spacing: 2px;">🎁 COMBOS</div>`;
+                groupItems(combos).forEach(item => {
+                    const qtyText = item.count > 1 ? ` x${item.count}` : '';
+                    const unitPrice = item.price;
+                    const totalPrice = unitPrice * item.count;
+                    
+                    html += `
+                        <div class="order-item">
+                            <div class="order-item-info">
+                                <div class="order-item-name">${item.name}${qtyText}</div>
+                            </div>
+                            <div class="order-item-price">$${totalPrice.toFixed(2)}</div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+            
+            // TOTAL
+            html += `
+                <div class="order-divider"></div>
+                <div class="order-total">
+                    <span class="order-total-label">TOTAL</span>
+                    <span class="order-total-amount">$${total.toFixed(2)}</span>
+                </div>
+            `;
+            
+            summary.innerHTML = html;
+            
+            const modal = document.getElementById('whatsappForm');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        // CERRAR FORMULARIO WHATSAPP
+        function closeWhatsAppForm(event) {
+            if (!event || event.target === document.getElementById('whatsappForm') || event.target.classList.contains('modal-close')) {
+                const modal = document.getElementById('whatsappForm');
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }, 300);
+            }
+        }
+
+        // ENVIAR A WHATSAPP - Formato organizado por categorías
+        function sendToWhatsApp() {
+            const name = document.getElementById('customerName').value.trim();
+            const total = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+            
+            let message = `🌭 *PERRITOS - Nuevo Pedido* 🌭\n\n`;
+            
+            if (name) {
+                message += `¡Hola! Soy *${name}* 👋\n\n`;
+            } else {
+                message += `¡Hola! 👋\n\n`;
+            }
+            
+            message += `Quisiera ordenar:\n\n`;
+            
+            // Organizar por categorías en el mensaje
+            const perros = cart.filter(item => item.category === 'perros' || !item.category);
+            const hamburguesas = cart.filter(item => item.category === 'hamburguesas');
+            const bebidas = cart.filter(item => item.category === 'bebidas');
+            const combos = cart.filter(item => item.category === 'combos');
+            
+            // Función para agrupar
+            function groupItems(items) {
+                const grouped = {};
+                items.forEach(item => {
+                    const key = `${item.name}|${item.customization}`;
+                    if (!grouped[key]) {
+                        grouped[key] = {
+                            name: item.name,
+                            customization: item.customization,
+                            price: item.totalPrice,
+                            count: 0
+                        };
+                    }
+                    grouped[key].count++;
+                });
+                return Object.values(grouped);
+            }
+            
+            // PERROS
+            if (perros.length > 0) {
+                message += `*🌭 PERROS:*\n`;
+                groupItems(perros).forEach(item => {
+                    const qtyText = item.count > 1 ? ` x${item.count}` : '';
+                    message += `• ${item.name}${qtyText}`;
+                    if (item.customization !== 'Estándar') {
+                        message += ` (${item.customization})`;
+                    }
+                    const lineTotal = item.price * item.count;
+                    message += ` - $${lineTotal.toFixed(2)}\n`;
+                });
+                message += `\n`;
+            }
+            
+            // HAMBURGUESAS
+            if (hamburguesas.length > 0) {
+                message += `*🍔 HAMBURGUESAS:*\n`;
+                groupItems(hamburguesas).forEach(item => {
+                    const qtyText = item.count > 1 ? ` x${item.count}` : '';
+                    message += `• ${item.name}${qtyText}`;
+                    if (item.customization !== 'Estándar') {
+                        message += ` (${item.customization})`;
+                    }
+                    const lineTotal = item.price * item.count;
+                    message += ` - $${lineTotal.toFixed(2)}\n`;
+                });
+                message += `\n`;
+            }
+            
+            // BEBIDAS
+            if (bebidas.length > 0) {
+                message += `*🥤 BEBIDAS:*\n`;
+                groupItems(bebidas).forEach(item => {
+                    const qtyText = item.count > 1 ? ` x${item.count}` : '';
+                    const lineTotal = item.price * item.count;
+                    message += `• ${item.name}${qtyText} - $${lineTotal.toFixed(2)}\n`;
+                });
+                message += `\n`;
+            }
+            
+            // COMBOS
+            if (combos.length > 0) {
+                message += `*🎁 COMBOS:*\n`;
+                groupItems(combos).forEach(item => {
+                    const qtyText = item.count > 1 ? ` x${item.count}` : '';
+                    const lineTotal = item.price * item.count;
+                    message += `• ${item.name}${qtyText} - $${lineTotal.toFixed(2)}\n`;
+                });
+                message += `\n`;
+            }
+            
+            message += `*💰 Total: $${total.toFixed(2)}*\n\n`;
+            message += `¿Podrías confirmarme los métodos de pago disponibles? 🌭`;
+            
+            const encodedMessage = encodeURIComponent(message);
+            const phoneNumber = '584125242614';
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappURL, '_blank');
+            
+            // Limpiar carrito
+            cart = [];
+            updateCartUI();
+            document.getElementById('customerName').value = '';
+            closeWhatsAppForm();
+        }
+
+        // SCROLL AL TOP (Logo clickeable)
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // SCROLL AL MENÚ
+        function scrollToMenu() {
+            document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // SCROLL A UBICACIÓN
+        function scrollToLocation() {
+            document.getElementById('location').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // CERRAR CON ESCAPE
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeProductModal();
+                closeCart();
+                closeWhatsAppForm();
+            }
+        });
+    </script>
+</body>
+</html>
